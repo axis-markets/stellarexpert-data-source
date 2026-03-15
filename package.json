@@ -1,0 +1,21 @@
+{
+  "name": "@axis-markets/stellarexpert-data-source",
+  "version": "0.1.0",
+  "description": "StellarExpert-based data source provider for AXIS",
+  "author": "team@stellar.expert",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "repository": {
+    "url": "git+https://github.com/axis-markets/stellarexpert-data-source.git",
+    "type": "git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "@stellar/stellar-sdk": ">=14"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0"
+  }
+}
