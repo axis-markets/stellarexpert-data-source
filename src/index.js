@@ -56,13 +56,15 @@ class StellarExpertDataSource {
 
     /**
      * Initialize data source and start data polling
-     * @param {'public'|'testnet'} network
-     * @param {string} contractAddress
+     * @param {'public'|'testnet'} network - Stellar network identifier
+     * @param {string} contractAddress - AXIS contract address
+     * @param {string} cursor - Last processed record pagination cursor
      * @return {Promise}
      */
-    async init(network, contractAddress) {
+    async init(network, contractAddress, cursor) {
         this.network = network
         this.contact = contractAddress
+        this.cursor = cursor
         this.loadData()
             .catch(e => console.error('Error loading data', e))
     }
