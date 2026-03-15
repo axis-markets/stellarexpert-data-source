@@ -61,7 +61,7 @@ class OrderEvent {
     cursor
     /**
      * Event date
-     * @type {Date}
+     * @type {number}
      */
     ts
 }
@@ -117,7 +117,7 @@ class TradeEvent {
     cursor
     /**
      * Trade date
-     * @type {Date}
+     * @type {number}
      */
     ts
 }
