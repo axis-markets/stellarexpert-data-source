@@ -83,8 +83,7 @@ describe('StellarExpertDataSource', () => {
 
         // There are 6 order events in the test data
         expect(orderEvents.length).toBe(6)
-        expect(orderEvents[0].action).toBe('created')
-        expect(orderEvents[0].cursor).toBe('6465879990611969-0000')
+        expect(orderEvents[0]).toMatchObject({action: 'created', cursor: '6465879990611969-0000'})
         // and two trade events
         expect(tradeEvents.length).toBe(2)
         expect(tradeEvents[0].cursor).toBe('6466146278580225-0002')
@@ -144,16 +143,17 @@ describe('StellarExpertDataSource', () => {
         await ds.init(network, contract)
         await jest.advanceTimersByTimeAsync(0)
 
-        const firstOrder = orders[0]
-        expect(firstOrder.action).toBe('created')
-        expect(firstOrder.id).toEqual(1n)
-        expect(firstOrder.kind).toEqual(1)
-        expect(firstOrder.owner).toBe('GB7TZS65DOB3KJLRPT2EDTMZQSCORUIQGCKP7XVNZ77VNKOTKQEY7F23')
-        expect(firstOrder.selling).toBe('CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA')
-        expect(firstOrder.buying).toBe('CCUUDM434BMZMYWYDITHFXHDMIVTGGD6T2I5UKNX5BSLXLW7HVR4MCGZ')
-        expect(firstOrder.price).toEqual(1200000000000000000n)
-        expect(firstOrder.amount).toEqual(20000000n)
-        expect(firstOrder.ts).toEqual(1773528090)
+        expect(orders[0]).toMatchObject({
+            action: 'created',
+            id: 1n,
+            kind: 1,
+            owner: 'GB7TZS65DOB3KJLRPT2EDTMZQSCORUIQGCKP7XVNZ77VNKOTKQEY7F23',
+            selling: 'CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA',
+            buying: 'CCUUDM434BMZMYWYDITHFXHDMIVTGGD6T2I5UKNX5BSLXLW7HVR4MCGZ',
+            price: 1200000000000000000n,
+            amount: 20000000n,
+            ts: 1773528090
+        })
     })
 
     test('parsed trade events have correct fields', async () => {
@@ -165,16 +165,17 @@ describe('StellarExpertDataSource', () => {
         await ds.init(network, contract)
         await jest.advanceTimersByTimeAsync(0)
 
-        const firstTrade = trades[0]
-        expect(firstTrade.id).toEqual(1n)
-        expect(firstTrade.order).toEqual(2n)
-        expect(firstTrade.taker).toBe('GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG')
-        expect(firstTrade.maker).toBe('GB7TZS65DOB3KJLRPT2EDTMZQSCORUIQGCKP7XVNZ77VNKOTKQEY7F23')
-        expect(firstTrade.soldAsset).toBe('CCUUDM434BMZMYWYDITHFXHDMIVTGGD6T2I5UKNX5BSLXLW7HVR4MCGZ')
-        expect(firstTrade.boughtAsset).toBe('CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA')
-        expect(firstTrade.sold).toEqual(5000000n)
-        expect(firstTrade.bought).toEqual(5500000n)
-        expect(firstTrade.ts).toBe(1773528400)
+        expect(trades[0]).toMatchObject({
+            id: 1n,
+            order: 2n,
+            taker: 'GBDCULE53LUPK4XHUCXBI35MAZFQHENMZ3JRKAJS2PPYBV646M6XKVHG',
+            maker: 'GB7TZS65DOB3KJLRPT2EDTMZQSCORUIQGCKP7XVNZ77VNKOTKQEY7F23',
+            soldAsset: 'CCUUDM434BMZMYWYDITHFXHDMIVTGGD6T2I5UKNX5BSLXLW7HVR4MCGZ',
+            boughtAsset: 'CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA',
+            sold: 5000000n,
+            bought: 5500000n,
+            ts: 1773528400
+        })
     })
 
     test('dispose stops the polling timer', async () => {

@@ -9,7 +9,7 @@ const PAGE_SIZE = 200
  * @return {Promise<ContractEvent[]>}
  */
 function loadEvents(network, contract, cursor) {
-    let url = `${apiOrigin}/explorer/${network}/contract/${contract}/events?order=asc&limit=${PAGE_SIZE}`
+    let url = `${apiOrigin}/explorer/${network}/contract/${contract}/events?order=asc&limit=${PAGE_SIZE}&_=${new Date().getTime()}`
     if (cursor) {
         url += `&cursor=${cursor}`
     }
