@@ -59,8 +59,28 @@ export class TradeEvent {
     ts: number;
 }
 
+export class SwapEvent {
+    /** Unique swap ID */
+    id: bigint;
+    /** Trader account address */
+    trader: string;
+    /** Selling token */
+    soldAsset: string;
+    /** Buying token */
+    boughtAsset: string;
+    /** Sold tokens amount */
+    sold: bigint;
+    /** Bought tokens amount */
+    bought: bigint;
+    /** Data pagination cursor */
+    cursor: string;
+    /** Event date */
+    ts: number;
+}
+
 export type DataSourceOnTrade = (tradeEvent: TradeEvent) => void;
 export type DataSourceOnOrder = (orderEvent: OrderEvent) => void;
+export type DataSourceOnSwap = (swapEvent: SwapEvent) => void;
 export type DataSourceOnError = (error: Error) => void;
 
 /**
@@ -73,6 +93,8 @@ declare class StellarExpertDataSource {
     onTradeEvent: DataSourceOnTrade;
     /** Event handler invoked on order changes */
     onOrderEvent: DataSourceOnOrder;
+    /** Event handler invoked on multi-market swap */
+    onSwapEvent: DataSourceOnSwap;
     /** Event handler invoked on errors */
     onError: DataSourceOnError;
     /** Data polling period, in milliseconds */

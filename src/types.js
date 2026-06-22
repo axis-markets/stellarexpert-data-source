@@ -123,6 +123,52 @@ class TradeEvent {
 }
 
 /**
+ * AXIS multi-market swap event
+ */
+class SwapEvent {
+    /**
+     * Unique swap ID
+     * @type {bigint}
+     */
+    id
+    /**
+     * Selling token
+     * @type {string}
+     */
+    soldAsset
+    /**
+     * Buying token
+     * @type {string}
+     */
+    boughtAsset
+    /**
+     * Sold tokens amount
+     * @type {bigint}
+     */
+    sold
+    /**
+     * Bought tokens amount
+     * @type {bigint}
+     */
+    bought
+    /**
+     * Trader account address
+     * @type {string}
+     */
+    trader
+    /**
+     * Data pagination cursor
+     * @type {string}
+     */
+    cursor
+    /**
+     * Event date
+     * @type {number}
+     */
+    ts
+}
+
+/**
  * @param {ContractEvent} event
  * @return {TradeEvent}
  * @internal
@@ -166,4 +212,23 @@ function parseOrderEvent(event) {
     return order
 }
 
-module.exports = {OrderEvent, TradeEvent, parseOrderEvent, parseTradeEvent}
+/**
+ * @param {ContractEvent} event
+ * @return {SwapEvent}
+ * @internal
+ */
+function parseSwapEvent(event) {
+    const swap = new SwapEvent()
+    const parsed = scValToNative(xdr.ScVal.fromXDR(event.bodyXdr, 'base64'))
+    swap.id = parsed.id
+    swap.ts = event.ts
+    swap.trader = parsed.trader
+    swap.soldAsset = parsed.selling
+    swap.boughtAsset = parsed.buying
+    swap.sold = parsed.sold
+    swap.bought = parsed.bought
+    swap.cursor = event.paging_token
+    return swap
+}
+
+module.exports = {OrderEvent, TradeEvent, SwapEvent, parseOrderEvent, parseTradeEvent, parseSwapEvent}

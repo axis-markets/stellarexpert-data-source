@@ -1,5 +1,5 @@
 const loadEvents = require('./loader')
-const {parseTradeEvent, parseOrderEvent} = require('./types')
+const {parseTradeEvent, parseOrderEvent, parseSwapEvent} = require('./types')
 
 const PAGE_SIZE = 200
 
@@ -33,6 +33,11 @@ class StellarExpertDataSource {
      * @type {DataSourceOnOrder}
      */
     onOrderEvent
+    /**
+     * Event handler invoked on multi-market swap
+     * @type {DataSourceOnSwap}
+     */
+    onSwapEvent
     /**
      * Event handler invoked on errors
      * @type {DataSourceOnError}
@@ -102,6 +107,11 @@ class StellarExpertDataSource {
                                     this.onOrderEvent(parseOrderEvent(event))
                                 }
                                 break
+                            case 'swap':
+                                if (this.onSwapEvent) {
+                                    this.onSwapEvent(parseSwapEvent(event))
+                                }
+                                break
                             default:
                                 console.warn('Unknown event type', event.topics[1])
                                 break
@@ -140,6 +150,12 @@ module.exports = StellarExpertDataSource
 /**
  * @callback DataSourceOnOrder
  * @param {OrderEvent} orderEvent
+ */
+
+
+/**
+ * @callback DataSourceOnSwap
+ * @param {SwapEvent} swapEvent
  */
 
 /**
